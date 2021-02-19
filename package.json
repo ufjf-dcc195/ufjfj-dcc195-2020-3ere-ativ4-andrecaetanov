@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "connect": "^3.7.0"
+    "connect": "^3.7.0",
+    "morgan": "^1.10.0"
   },
   "type": "module"
 }
