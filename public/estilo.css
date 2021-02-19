@@ -1,11 +1,4 @@
-body {
-  width: 200px;
-  margin: auto;
-  background-color: darkblue;
-  color: white;
-  text-align: center;
-}
-
-html {
-  background-color: black;
+.foto-perfil {
+  width: 250px;
+  height: 250px;
 }

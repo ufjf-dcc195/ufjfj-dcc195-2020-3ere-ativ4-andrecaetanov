@@ -1,23 +1,33 @@
 import connect from "connect";
 import morgan from "morgan";
 import serveStatic from "serve-static";
+import { route } from "./router.js";
+import { routes } from "./routes.js";
 
+const PORT = process.env.PORT ? process.env.PORT : 3000;
 const app = connect();
-app.listen(3000);
+app.listen(PORT);
+console.log(`Servidor ouvindo na porta ${PORT}`);
 
 app.use(morgan("dev"));
 app.use(serveStatic("./public"));
-app.use(incluiCabecalhos);
-app.use(helloWorld);
+app.use(headerFilter);
+app.use(stylesheetFilter);
+app.use(routeProvider);
 
-console.log("Servidor escutando em http://localhost:3000");
+function headerFilter(request, response, next) {
+  response.setHeader("Content-Type", "text/html; charset=utf-8");
+  next();
+}
 
-function incluiCabecalhos(request, response, next) {
-  response.setHeader("Content-Type", "text/html");
+function stylesheetFilter(request, response, next) {
+  response.write("<link rel=stylesheet href=bootstrap.min.css />");
   response.write("<link rel=stylesheet href=estilo.css />");
   next();
 }
 
-function helloWorld(request, response, next) {
-  response.end("<h1>Hello, World!</h1>");
+function routeProvider(request, response) {
+  const controller = route(request.url, routes);
+  controller(request, response);
+  response.end();
 }
